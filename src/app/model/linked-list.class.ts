@@ -1,142 +1,118 @@
-import { Node } from './node.class';
+import { INode } from '../interfaces/inode.interface';
+import { TFunction } from '../interfaces/t-function.interface';
 
-// Create/Get/Remove Nodes From Linked List
-export class LinkedList {
-  head: Node;
-  size: number;
+export class LinkedList<T> {
+  private head: INode<T> = null;
+  private tail: INode<T> = null;
+  private EMPTY_NODE: INode<T> = { value: null, next: null };
 
-  constructor() {
-    this.head = null;
-    this.size = 0;
-  }
 
-  // Insert first node
-  insertFirst(data: any) {
-    this.head = new Node(data, this.head);
-    this.size++;
-  }
+  public append = (value: T): LinkedList<T> => {
+    const node = this.forgeNode(value);
 
-  // Insert last node
-  insertLast(data: any) {
-    let node = new Node(data);
-    let current: any;
-
-    // If empty, make head
-    if (!this.head) {
+    if (this.isEmpty()) {
       this.head = node;
-    } else {
-      current = this.head;
-
-      while (current.next) {
-        current = current.next;
-      }
-
-      current.next = node;
+      this.tail = node;
+      return this;
     }
 
-    this.size++;
-  }
+    this.appendToTheEndOfTheList(node);
+    return this;
+  };
+  
+  public insert = (value: T): LinkedList<T> => {
+    const node = this.forgeNode(value);
+    node.next = this.head;
+    this.head = node;
 
-  // Insert at index
-  insertAt(data: number, index: number) {
-    //  If index is out of range
-    if (index > 0 && index > this.size) {
-      return;
+    if (!this.tail) {
+        this.tail = node;
     }
 
-    // If first index
-    if (index === 0) {
-      this.insertFirst(data);
-      return;
+    return this;
+};
+
+  public find = (compare: TFunction<T, boolean>): INode<T> => {
+    if (this.isEmpty()) {
+        return null;
     }
 
-    const node = new Node(data);
-    let current, previous;
-
-    // Set current to first
-    current = this.head;
-    let count = 0;
-
-    while (count < index) {
-      previous = current; // Node before index
-      count++;
-      current = current.next; // Node after index
+    let node = this.head;
+    while (node) {
+        if (compare(node.value)) {
+            return node;
+        }
+        node = node.next;
     }
-
-    node.next = current;
-    previous.next = node;
-
-    this.size++;
-  }
-
-  // Get at index
-  getAt(index: number) {
-    let current: any = this.head;
-    let count: number = 0;
-
-    while (current) {
-      if (count == index) {
-        console.log(current.data);
-      }
-      count++;
-      current = current.next;
-    }
-
     return null;
+};
+
+  public isEmpty = () => !this.head;
+
+  public toArray = (): T[] => {
+    const result: T[] = [];
+    let node = this.head;
+    while (node) {
+      result.push(node.value);
+      node = node.next;
+    }
+    return result;
+  };
+
+  public fromArray = (values: T[]): LinkedList<T> => {
+    values.forEach(v => this.append(v));
+    return this;
+  };
+
+  private appendToTheEndOfTheList = (node: INode<T>) => {
+    this.tail.next = node;
+    this.tail = node;
+  };
+
+  private forgeNode = (value: T): INode<T> => {
+    return { value, next: null };
+  };
+
+  public *items() {
+    let node = this.head;
+    while (node) {
+      yield node;
+      node = node.next;
+    }
   }
 
-  // Remove at index
-  removeAt(index: number) {
-    if (index > 0 && index > this.size) {
-      return;
-    }
 
-    let current = this.head;
-    let previous: any;
-    let count: any = 0;
 
-    // Remove first
-    if (index === 0) {
-      this.head = current.next;
-    } else {
-      while (count < index) {
-        count++;
-        previous = current;
-        current = current.next;
+  public delete = (value: T): boolean => {
+      let deleted: boolean = false;
+      if (this.isEmpty()) {
+          return deleted;
       }
 
-      previous.next = current.next;
-    }
+      deleted = this.deleteFromHead(value);
 
-    this.size--;
-  }
+      let current = this.head || this.EMPTY_NODE;
+      while (current.next) {
+          if (current.next.value === value) {
+              deleted = true;
+              current.next = current.next.next;
+          } else {
+              current = current.next;
+          }
+      }
 
-  // Clear list
-  clearList() {
-    this.head = null;
-    this.size = 0;
-  }
+      if (this.tail.value === value) {
+          this.tail = current;
+      }
+      return deleted;
+  };
 
-  // Print list data
-  printListData() {
-    let current = this.head;
-
-    while (current) {
-      console.log(current.data);
-      current = current.next;
-    }
-  }
+  private deleteFromHead = (value: T): boolean => {
+      let deleted: boolean = false;
+      while (this.head && this.head.value === value) {
+          deleted = true;
+          this.head = this.head.next;
+      }
+      return deleted;
+  };
 }
-
-const ll = new LinkedList();
-
-ll.insertFirst(100);
-ll.insertFirst(200);
-ll.insertFirst(300);
-ll.insertLast(400);
-ll.insertAt(500, 3);
-
-// ll.clearList();
-// ll.getAt(2);
-
-ll.printListData();

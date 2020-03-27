@@ -16,6 +16,9 @@ import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListLinkedComponent } from './components/linked-list-implementation/list-linked/list-linked.component';
 import { EditLinkedComponent } from './components/linked-list-implementation/edit-linked/edit-linked.component';
+import { ContainsArrayListComponent } from './components/array-implementation/contains-array-list/contains-array-list.component';
+import { ContainsLinkedListComponent } from './components/linked-list-implementation/contains-linked-list/contains-linked-list.component';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ import { EditLinkedComponent } from './components/linked-list-implementation/edi
     HomeComponent,
     NavbarComponent,
     ListLinkedComponent,
-    EditLinkedComponent
+    EditLinkedComponent,
+    ContainsArrayListComponent,
+    ContainsLinkedListComponent,
   ],
   imports: [
     BrowserModule,

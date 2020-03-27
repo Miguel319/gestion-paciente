@@ -1,69 +1,73 @@
 import { Injectable } from '@angular/core';
 import { PositiveIntegerOrZero } from '../model/positive-integer-or-zero.class';
 import { Patient } from '../model/patient.class';
-import { LinkedList } from 'linked-list-typescript';
+import { LinkedList } from '../model/linked-list.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientLinkedListService {
-  // patients: LinkedList<Patient>;
-  // size: PositiveIntegerOrZero;
-/*
+  patients: LinkedList<Patient>;
+  size: PositiveIntegerOrZero;
+
   constructor() {
-    this.patients = new LinkedList();
+    this.patients = new LinkedList<Patient>();
+    this.size = new PositiveIntegerOrZero(0);
   }
 
   add(newPatient: Patient): boolean {
-    let patientSearch = 0;
+    let patientSearch: number = 0;
+    this.patients.append(newPatient);
 
-    if (this.patients.length > 0) {
-      for (let i = 0; i < this.patients.length; i++) {
-        if (
-          this.patients.getAt(i).getName() === newPatient.getName() &&
-          this.patients.getAt(i).getLastName() === newPatient.getLastName()
-        ) {
-          patientSearch++;
-          break;
-        }
+    for (let patient of this.patients.toArray()) {
+      if (
+        patient.getLastName() === newPatient.getName() &&
+        patient.getLastName() === newPatient.getLastName()
+      ) {
+        patientSearch++;
+        break;
       }
     }
 
-    if (!patientSearch) this.size.setValue(this.patients.size);
+    if (!patientSearch) {
+      this.size.setValue(this.size.getValue() + 1);
+      console.log(this.size);
+    }
 
     return patientSearch ? true : false;
   }
 
   contains(somePatient: Patient): boolean {
-    let patientSearch = 0;
+    let patientSearch: number = 0;
 
-    if (this.patients.size > 0) {
-      for (let i = 0; i < this.patients.size; i++) {
+    if (this.size.getValue() > 0) {
+      for (let patient of this.patients.toArray()) {
         if (
-          this.patients.getAt(i).getName() === somePatient.getName() &&
-          this.patients.getAt(i).getLastName() === somePatient.getLastName()
+          patient.getName() === somePatient.getName() &&
+          patient.getLastName() === somePatient.getLastName()
         ) {
           patientSearch++;
           break;
         }
       }
-    }
 
+    }
     return patientSearch ? true : false;
   }
 
-   remove(somePatient: Patient): boolean {
+  remove(somePatient: Patient): boolean {
+    const exists: boolean = Boolean(
+      this.patients.toArray().find(v => v === somePatient)
+    );
 
-
-    this.patients.removeAt(this.patients.removeAt(this.patients.));
-
-    this.size.setValue(this.size.getValue() - 1);
-
-    return this.patientList.indexOf(somePatient) >= 0;
+    if (exists) {
+      this.patients.delete(somePatient);
+      this.size.setValue(this.size.getValue() - 1);
+    }
+    return exists;
   }
 
-  all(): LinkedList {
-    return this.patients;
+  all() {
+    return this.patients.toArray();
   }
-  */
 }

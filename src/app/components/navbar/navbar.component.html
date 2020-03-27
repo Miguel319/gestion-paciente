@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="['/']"   >Patient Management</a>
+    <a class="navbar-brand" [routerLink]="['/']"><b>Patient Management</b></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -15,25 +15,23 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto mt-2 mt-lg-0 mr-5 ">
-
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/array-list']" routerLinkActive="router-link-active" >Array List </a>
+          <a
+            class="nav-link"
+            [routerLink]="['/array-list']"
+            routerLinkActive="router-link-active"
+            >Array List
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/linked-list']" routerLinkActive="router-link-active" >Linked List </a>
+          <a
+            class="nav-link"
+            [routerLink]="['/linked-list']"
+            routerLinkActive="router-link-active"
+            >Linked List
+          </a>
         </li>
-
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-        />
-        <button class="btn btn-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
-      </form>
     </div>
   </div>
 </nav>

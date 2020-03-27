@@ -1,8 +1,13 @@
-<h3 class="text-center">Patient List</h3>
+<h3 class="text-center mb-4">Patient List - Array List Implementation</h3>
 
-<a [routerLink]="['/array-edit']" class="btn btn-success ">
-  Add Patient
-</a>
+<div class="ml-auto">
+  <a [routerLink]="['/array-edit']" class="btn btn-success ">
+    <i class="far fa-plus-square mr-2"></i> Add Patient
+  </a>
+  <button (click)="contains()" class="ml-3 btn btn-info">
+    <i class="fas fa-question mr-2"></i> Contains
+  </button>
+</div>
 
 <div class="mt-5 jumbotron jumbotron-fluid" *ngIf="patientList.length === 0">
   <div class="container">
@@ -14,7 +19,7 @@
 </div>
 
 <div *ngIf="patientList.length > 0">
-  <p class="ml-auto">Patients: {{ size }}</p>
+  <h5 class="ml-auto mt-4">Patients: {{ size }}</h5>
   <div class="card-group mt-5">
     <div class="card" *ngFor="let patient of patientList">
       <img
@@ -35,11 +40,20 @@
           }}</i>
         </p>
 
+        <p *ngIf="patient.getDisorders().length > 0">Disorders:</p>
+        <ul *ngFor="let disorder of patient.getDisorders()">
+          <li>{{ disorder }}</li>
+        </ul>
+
         <hr />
         <p class="card-text">
-          <button class="btn btn-info">Add disorder</button>
-          <button class="btn btn-danger">Has disorder</button>
-          <button class="btn btn-danger" (click)="remove(patient)">
+          <button class="btn btn-info" (click)="addDisorder(patient)">
+            Add disorder
+          </button>
+          <button class="btn btn-warning ml-2" (click)="hasDisorder(patient)">
+            Has disorder
+          </button>
+          <button class="btn btn-danger ml-2" (click)="remove(patient)">
             <i class="fas fa-trash-alt"></i>
           </button>
         </p>

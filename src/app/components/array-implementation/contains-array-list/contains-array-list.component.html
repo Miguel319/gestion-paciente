@@ -1,10 +1,11 @@
 <div class="bwm-form">
   <div class="row">
     <div class="col-md-5">
-      <form [formGroup]="formGroup" (ngSubmit)="addPatient()">
-        <h1>Add patient</h1>
+      <form [formGroup]="formGroup" (ngSubmit)="contains()">
+        <h1>Patient verification</h1>
         <div class="form-group">
           <input
+          
             [ngClass]="{
               'is-invalid':
                 formGroup.get('name').errors && formGroup.get('name').touched
@@ -13,7 +14,6 @@
             formControlName="name"
             class="form-control"
           />
-          <!-- (focus)="cleanError()" -->
           <div
             class="invalid-feedback"
             *ngIf="
@@ -25,7 +25,6 @@
           </div>
         </div>
         <div class="form-group">
-          <!-- (focus)="cleanError()" -->
           <input
             placeholder="Last Name"
             [ngClass]="{
@@ -48,16 +47,9 @@
           </div>
         </div>
 
-        <div class="alert" *ngIf="errMessage">
-          <h5>
-            <b id="err-title">Error</b>
-          </h5>
-          <p id="err-msg">{{ errMessage }}</p>
-        </div>
-
         <button type="submit" class="btn btn-bwn btn-block">
           <i class="far fa-save"></i>
-          Submit
+          Check if patient exists
         </button>
       </form>
     </div>
