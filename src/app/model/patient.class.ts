@@ -1,15 +1,34 @@
 export class Patient{
     private name: string;
-    private lastname: string;
-    disorders: string[];
-    IsHealthy: boolean;
-    
+    private lastName: string;
+    private disorders: string[];
+    private isHealthy: boolean;
+
     constructor(name: string, lastName: string){
         this.name = name;
-        this.lastname = lastName;
+        this.lastName = lastName;
+        this.disorders = [];
+        this.isHealthy = true;
     }
 
+    setName = (name: string): void => {
+      this.name = name;
+    }
 
+    getName = () => this.name;
+
+    setLastName = (lastName: string): void => {
+      this.lastName = lastName;
+    }
+
+    getLastName = (): string => this.lastName;
+
+    getDisorders = (): string[] => this.disorders;
+
+    isPatientHealthy = (): boolean => {
+      this.isHealthy = this.disorders.length === 0;
+      return this.isHealthy;
+    }
     addDisorder(disorderCode: number): boolean{
         return true;
     }
@@ -18,12 +37,9 @@ export class Patient{
         return false;
     }
 
-    toString(){
-
-        return `${this.name} ${this.lastname} has ${this.disorders}`;
+    toString(): string {
+        return `${this.name} ${this.lastName} has ${this.disorders}`;
     }
-
-
 }
 
 

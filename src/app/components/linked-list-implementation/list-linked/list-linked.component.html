@@ -1,0 +1,49 @@
+<h3 class="text-center">Patient List</h3>
+
+<a [routerLink]="['/array-edit']" class="btn btn-success ">
+  Add Patient
+</a>
+
+<div class="mt-5 jumbotron jumbotron-fluid" *ngIf="patientList.size === 0">
+  <div class="container">
+    <h1 class="display-4 text-center">No patients added yet</h1>
+    <h5 class="text-center">
+      Click <a [routerLink]="['/array-edit']">here</a> to add new patient.
+    </h5>
+  </div>
+</div>
+
+<div *ngIf="patientList.size > 0">
+  <p class="ml-auto">Patients: {{ size }}</p>
+  <div class="card-group mt-5">
+    <div class="card" *ngFor="let patient of patientList">
+      <img
+        src="https://res.cloudinary.com/dvoo3wu0v/image/upload/v1585250683/patient-img_xxsysm.png"
+        class="card-img-top"
+        alt="..."
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ patient.name }} {{ patient.lastName }}</h5>
+        <p
+          [ngStyle]="{
+            color: patient.disorders.length === 0 ? 'green' : 'red'
+          }"
+          class="card-text"
+        >
+          <i class="fas fa-heartbeat">{{
+            patient.isPatientHealthy(patient) ? "  Healthy" : "  Unhealthy"
+          }}</i>
+        </p>
+
+        <hr />
+        <p class="card-text">
+          <button class="btn btn-info">Add disorder</button>
+          <button class="btn btn-danger">Has disorder</button>
+          <button class="btn btn-danger" (click)="remove(patient)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
