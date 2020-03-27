@@ -10,33 +10,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./list-linked.component.css']
 })
 export class ListLinkedComponent implements OnInit {
-  patientList: LinkedList;
-  size: number;
-
-  constructor(
-    private patientLinkedListService: PatientLinkedListService,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
-    this.patientList = this.patientLinkedListService.all();
-    this.size = this.patientLinkedListService.size.getValue();
+    throw new Error("Method not implemented.");
   }
+  // patientList: LinkedList;
+  // size: number;
 
-  add(patient: Patient): void {
-    this.patientLinkedListService.add(patient);
-  }
+  // constructor(
+  //   private patientLinkedListService: PatientLinkedListService,
+  //   private router: Router
+  // ) {}
 
-  remove(patient: Patient): void {
-    // this.patientLinkedListService.remove(patient);
-  }
+  // ngOnInit(): void {
+  //   this.patientList = this.patientLinkedListService.all();
+  //   this.size = this.patientLinkedListService.size.getValue();
+  // }
 
-  contains(): void {
-    this.router.navigateByUrl(`array-formulario`);
-  }
+  // add(patient: Patient): void {
+  //   this.patientLinkedListService.add(patient);
+  // }
 
-  getDisorders(patient: Patient): string[] {
-    return patient.getDisorders();
-  }
+  // remove(patient: Patient): void {
+  //   // this.patientLinkedListService.remove(patient);
+  // }
+
+  // contains(): void {
+  //   this.router.navigateByUrl(`array-formulario`);
+  // }
+
+  // getDisorders(patient: Patient): string[] {
+  //   return patient.getDisorders();
+  // }
 
 }
