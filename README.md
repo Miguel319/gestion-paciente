@@ -1,27 +1,29 @@
-# GestionPacientes
+## Required structure
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+### PositiveIntegerOrZero
+	PositiveIntegerOrZero(ushort | int) //constructor, throw Exception if int < 0
+	Value : ushort | int //property
+	ToString() : String => "9999" (value) // method
 
-## Development server
+### Patient //Codificar desordenes utilizando operaciones de bits
+	Patient(name: String, lastName: String) //constructor
+	Name : String
+	LastName: String
+	Disorders: String[] // (disorders as string array { "Programmer", "Tester", "Bipolar", ...  })
+	IsHealthy: boolean // (true: zero disorders, false: at least one disorder)
+	AddDisorder(disorderCode : ushort | short) : boolean // true : added (was not found), false : already has it
+	HasDisorder(disorderCode : ushort | short) : boolean // true: has it, false : does not has it
+	ToString() : "{name} {lastName} has {disorders}"; {disorders} => "disorderA, disorderB, disorderC, ..."
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### PatientList | IPatientList //interface
+	Size : PositiveIntegerOrZero // Property
+	Add(newPatient: Patient) : boolean //true : no estaba | false : estaba presente no se agrega
+	Contains(somePatient: Patient) : boolean
+	Remove(somePatient: Patient) : boolean //true : estaba | false : no estaba
+	All() : Patient[]
 
-## Code scaffolding
+### v1) PatientArrayList : IPatientList (java) implements PatientList //Array based
+		PatientArrayList() // constructor
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### v2) PatientLinkedList : PatientList | IPatientList //Linked List Based
+		PatientLinkedList() // constructor
