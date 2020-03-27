@@ -1,3 +1,8 @@
+import {disordersStr} from '../util/disorders'
+import { Z_FILTERED } from 'zlib';
+import { element } from 'protractor';
+import { kStringMaxLength } from 'buffer';
+
 export class Patient{
     private name: string;
     private lastName: string;
@@ -29,37 +34,53 @@ export class Patient{
       this.isHealthy = this.disorders.length === 0;
       return this.isHealthy;
     }
+    
     addDisorder(disorderCode: number): boolean{
-        return true;
+      
+     let temp = [];
+     let hasDisorder: boolean = false;
+
+      for(let x = 0; x < 16 ; x++){
+       let shift =  1 << x;
+
+        if((disorderCode & shift) > 0){
+            temp.push(disordersStr[x]);
+        }
+      }
+
+      for(let element of this.disorders){
+         hasDisorder = temp.indexOf(element) >= 0;
+
+          if(hasDisorder) temp.splice(temp.indexOf(element), 1);
+      }
+      
+      this.disorders.push(...temp);
+
+      return hasDisorder;
     }
 
     hasDisorder(disorderCode: number): boolean {
-        return false;
+
+     let temp = [];
+     let hasDisorder: boolean = false;
+
+      for(let x = 0; x < 16 ; x++){
+       let shift =  1 << x;
+
+        if((disorderCode & shift) > 0){
+            temp.push(disordersStr[x]);
+        }
+      }
+
+      for(let element of this.disorders){
+         hasDisorder = temp.indexOf(element) >= 0;
+
+          if(hasDisorder) temp.splice(temp.indexOf(element), 1);
+      }
+      return hasDisorder;
     }
 
     toString(): string {
         return `${this.name} ${this.lastName} has ${this.disorders}`;
     }
 }
-
-
-
-/*
-Patient //Codificar desordenes utilizando operaciones de bits
-    Patient(name: String, lastName: String) //constructor
-    Name : String
-    LastName: String
-    Disorders: String[] // (disorders as string array { "Programmer", "Tester", "Bipolar", ...  })
-    IsHealthy: boolean // (true: zero disorders, false: at least one disorder)
-    AddDisorder(disorderCode : ushort | short) : boolean // true : added (was not found), false : already has it
-    HasDisorder(disorderCode : ushort | short) : boolean // true: has it, false : does not has it
-    ToString() : "{name} {lastName} has {disorders}"; {disorders} => "disorderA, disorderB, disorderC, ..."
-
-    PatientList | IPatientList //interface
-    Size : PositiveIntegerOrZero // Property
-    Add(newPatient: Patient) : boolean //true : no estaba | false : estaba presente no se agrega
-    Contains(somePatient: Patient) : boolean
-    Remove(somePatient: Patient) : boolean //true : estaba | false : no estaba
-    All() : Patient[]
-
-*/
