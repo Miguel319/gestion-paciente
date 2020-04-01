@@ -19,6 +19,7 @@ export class PatientListService implements PatienList {
     let patientSearch = 0;
 
     if (this.patientList.length > 0) {
+
       for (let elem of this.patientList) {
         if (
           elem.getName() === newPatient.getName() &&

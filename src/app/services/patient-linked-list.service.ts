@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { PositiveIntegerOrZero } from '../model/positive-integer-or-zero.class';
 import { Patient } from '../model/patient.class';
 import { LinkedList } from '../model/linked-list.class';
+import { PatienList } from '../interfaces/patient-list.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PatientLinkedListService {
+export class PatientLinkedListService implements PatienList{
   patients: LinkedList<Patient>;
   size: PositiveIntegerOrZero;
 
@@ -17,7 +18,6 @@ export class PatientLinkedListService {
 
   add(newPatient: Patient): boolean {
     let patientSearch: number = 0;
-    this.patients.append(newPatient);
 
     for (let patient of this.patients.toArray()) {
       if (
@@ -31,6 +31,7 @@ export class PatientLinkedListService {
 
     if (!patientSearch) {
       this.size.setValue(this.size.getValue() + 1);
+      this.patients.append(newPatient);
       console.log(this.size);
     }
 
