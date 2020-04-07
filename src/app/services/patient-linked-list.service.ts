@@ -5,9 +5,9 @@ import { LinkedList } from '../model/linked-list.class';
 import { PatienList } from '../interfaces/patient-list.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class PatientLinkedListService implements PatienList{
+export class PatientLinkedListService implements PatienList {
   patients: LinkedList<Patient>;
   size: PositiveIntegerOrZero;
 
@@ -17,48 +17,32 @@ export class PatientLinkedListService implements PatienList{
   }
 
   add(newPatient: Patient): boolean {
-    let patientSearch: number = 0;
+    let patientExists: boolean = this.contains(newPatient);
 
-    for (let patient of this.patients.toArray()) {
-      if (
-        patient.getLastName() === newPatient.getName() &&
-        patient.getLastName() === newPatient.getLastName()
-      ) {
-        patientSearch++;
-        break;
-      }
-    }
-
-    if (!patientSearch) {
+    if (!patientExists) {
       this.size.setValue(this.size.getValue() + 1);
       this.patients.append(newPatient);
-      console.log(this.size);
     }
 
-    return patientSearch ? true : false;
+    return patientExists;
   }
 
   contains(somePatient: Patient): boolean {
-    let patientSearch: number = 0;
+    let patientExists: boolean = false;
 
     if (this.size.getValue() > 0) {
       for (let patient of this.patients.toArray()) {
-        if (
-          patient.getName() === somePatient.getName() &&
-          patient.getLastName() === somePatient.getLastName()
-        ) {
-          patientSearch++;
-          break;
-        }
-      }
+        patientExists = patient.equals(somePatient);
 
+        if (patientExists) break;
+      }
     }
-    return patientSearch ? true : false;
+    return patientExists;
   }
 
   remove(somePatient: Patient): boolean {
     const exists: boolean = Boolean(
-      this.patients.toArray().find(v => v === somePatient)
+      this.patients.toArray().find((v) => v === somePatient)
     );
 
     if (exists) {

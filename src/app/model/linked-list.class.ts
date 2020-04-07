@@ -19,7 +19,7 @@ export class LinkedList<T> {
     this.appendToTheEndOfTheList(node);
     return this;
   };
-  
+
   public insert = (value: T): LinkedList<T> => {
     const node = this.forgeNode(value);
     node.next = this.head;

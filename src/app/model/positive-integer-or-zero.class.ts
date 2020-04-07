@@ -2,8 +2,8 @@ export class PositiveIntegerOrZero {
   private value: number;
 
   constructor(val: number) {
-    if (val < 0 || !Number.isInteger(val))
-      throw 'Sólo se permiten ceros o enteros positivos.';
+    const isValValid = !Number.isInteger(val) || val < 0;
+    if (isValValid) throw 'Sólo se permiten ceros o enteros positivos.';
 
     this.value = val;
   }
@@ -18,10 +18,3 @@ export class PositiveIntegerOrZero {
     return this.value.toString();
   }
 }
-
-/*
-PositiveIntegerOrZero
-    PositiveIntegerOrZero(ushort | int) //constructor, throw Exception if int < 0
-    Value : ushort | int //property
-    ToString() : String => "9999" (value) // method
-    */

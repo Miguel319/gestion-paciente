@@ -5,6 +5,7 @@ export class Patient {
   private lastName: string;
   private disorders: string[];
   private isHealthy: boolean;
+  private tempDisorders: string[];
 
   constructor(name: string, lastName: string) {
     this.name = name;
@@ -33,46 +34,38 @@ export class Patient {
   };
 
   addDisorder(disorderCode: number): boolean {
-    let temp = [];
-    let hasDisorder: boolean = false;
-
-    for (let x = 0; x < 16; x++) {
-      let shift = 1 << x;
-
-      if ((disorderCode & shift) > 0) {
-        temp.push(disordersStr[x]);
-      }
-    }
-
-    for (let element of this.disorders) {
-      hasDisorder = temp.indexOf(element) >= 0;
-
-      if (hasDisorder) temp.splice(temp.indexOf(element), 1);
-    }
-
-    this.disorders.push(...temp);
+    let hasDisorder: boolean = this.hasDisorder(disorderCode);
+    this.disorders.push(...this.tempDisorders);
 
     return hasDisorder;
   }
 
   hasDisorder(disorderCode: number): boolean {
-    let temp = [];
+    this.tempDisorders = [];
     let hasDisorder: boolean = false;
 
     for (let x = 0; x < 16; x++) {
       let shift = 1 << x;
 
       if ((disorderCode & shift) > 0) {
-        temp.push(disordersStr[x]);
+        this.tempDisorders.push(disordersStr[x]);
       }
     }
 
     for (let element of this.disorders) {
-      hasDisorder = temp.indexOf(element) >= 0;
+      hasDisorder = this.tempDisorders.indexOf(element) >= 0;
 
-      if (hasDisorder) temp.splice(temp.indexOf(element), 1);
+      if (hasDisorder)
+        this.tempDisorders.splice(this.tempDisorders.indexOf(element), 1);
     }
     return hasDisorder;
+  }
+
+  equals(somePatient: Patient): boolean {
+    return (
+      this.getName() === somePatient.getName() &&
+      this.getLastName() === somePatient.getLastName()
+    );
   }
 
   toString(): string {

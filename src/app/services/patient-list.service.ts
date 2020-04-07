@@ -4,7 +4,7 @@ import { Patient } from '../model/patient.class';
 import { PositiveIntegerOrZero } from '../model/positive-integer-or-zero.class';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PatientListService implements PatienList {
   patientList: Patient[];
@@ -16,44 +16,28 @@ export class PatientListService implements PatienList {
   }
 
   add(newPatient: Patient): boolean {
-    let patientSearch = 0;
+    let patientExists: boolean = this.contains(newPatient);
 
-    if (this.patientList.length > 0) {
-
-      for (let elem of this.patientList) {
-        if (
-          elem.getName() === newPatient.getName() &&
-          elem.getLastName() === newPatient.getLastName()
-        ) {
-          patientSearch++;
-          break;
-        }
-      }
+    if (!patientExists) {
+      this.patientList.push(newPatient);
+      this.size.setValue(this.size.getValue() + 1);
     }
 
-    if (!patientSearch) this.patientList.push(newPatient);
-
-    this.size.setValue(this.size.getValue() + 1);
-
-    return patientSearch ? true : false;
+    return patientExists;
   }
 
   contains(somePatient: Patient): boolean {
-    let patientSearch = 0;
+    let patientExists: boolean = false;
 
     if (this.patientList.length > 0) {
       for (let elem of this.patientList) {
-        if (
-          elem.getName() === somePatient.getName() &&
-          elem.getLastName() === somePatient.getLastName()
-        ) {
-          patientSearch++;
-          break;
-        }
+        patientExists = elem.equals(somePatient);
+
+        if (patientExists) break;
       }
     }
 
-    return patientSearch ? true : false;
+    return patientExists;
   }
 
   remove(somePatient: Patient): boolean {
