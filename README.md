@@ -1,11 +1,9 @@
-## Required structure
-
 ### PositiveIntegerOrZero
 	PositiveIntegerOrZero(ushort | int) //constructor, throw Exception if int < 0
 	Value : ushort | int //property
 	ToString() : String => "9999" (value) // method
 
-### Patient //Codificar desordenes utilizando operaciones de bits
+### Patient // Encode disorders using bit operations
 	Patient(name: String, lastName: String) //constructor
 	Name : String
 	LastName: String
