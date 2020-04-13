@@ -3,16 +3,17 @@ import { disordersStr } from '../util/disorders';
 export class Patient {
   private name: string;
   private lastName: string;
-  private disorders: string[];
+  private disorders: number;
   private isHealthy: boolean;
-  private tempDisorders: string[];
 
   constructor(name: string, lastName: string) {
     this.name = name;
     this.lastName = lastName;
-    this.disorders = [];
+    this.disorders = 0;
     this.isHealthy = true;
   }
+
+  moveBit = (n: number, bit: number) => n | (1 << (bit - 1));
 
   setName = (name: string): void => {
     this.name = name;
@@ -26,39 +27,36 @@ export class Patient {
 
   getLastName = (): string => this.lastName;
 
-  getDisorders = (): string[] => this.disorders;
+  getDisorders = (): string[] => {
+    let disordersArr: string[] = [];
+
+    for (let i = 0; i < disordersStr.length; i++) {
+      let l = 1 << i;
+
+      if ((this.disorders & l) !== 0) disordersArr.push(disordersStr[i]);
+    }
+
+    return disordersArr;
+  };
 
   isPatientHealthy = (): boolean => {
-    this.isHealthy = this.disorders.length === 0;
+    this.isHealthy = this.getDisorders().length === 0;
     return this.isHealthy;
   };
 
   addDisorder(disorderCode: number): boolean {
     let hasDisorder: boolean = this.hasDisorder(disorderCode);
-    this.disorders.push(...this.tempDisorders);
+    // this.disorders.push(...this.tempDisorders);
 
-    return hasDisorder;
+    let disorder = this.moveBit(this.disorders, disorderCode);
+
+    if (disorder != this.disorders) return hasDisorder;
   }
 
   hasDisorder(disorderCode: number): boolean {
-    this.tempDisorders = [];
-    let hasDisorder: boolean = false;
+    let disorder = this.moveBit(this.disorders, disorderCode);
 
-    for (let x = 0; x < 16; x++) {
-      let shift = 1 << x;
-
-      if ((disorderCode & shift) > 0) {
-        this.tempDisorders.push(disordersStr[x]);
-      }
-    }
-
-    for (let element of this.disorders) {
-      hasDisorder = this.tempDisorders.indexOf(element) >= 0;
-
-      if (hasDisorder)
-        this.tempDisorders.splice(this.tempDisorders.indexOf(element), 1);
-    }
-    return hasDisorder;
+    return disorder !== this.disorders;
   }
 
   equals(somePatient: Patient): boolean {
